@@ -11,10 +11,10 @@ function App() {
    }, []);
 
    return (
-      <div className="p-4">
+<div className="p-4">
          <p className="font-bold p-4 text-3xl">{message}</p>
          <Button>Button</Button>
-      </div>
-   );
+</div>
+                    )
 }
-export default App;
+export default App

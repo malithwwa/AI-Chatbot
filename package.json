@@ -1,24 +1,27 @@
 {
-   "name": "new-folder",
-   "module": "index.ts",
-   "type": "module",
-   "private": true,
-   "scripts": {
-      "dev": "bun run index.ts",
-      "format": "prettier --write ."
-   },
-   "devDependencies": {
-      "@types/bun": "latest",
-      "concurrently": "^10.0.3",
-      "prettier": "^3.9.6"
-   },
-   "peerDependencies": {
-      "typescript": "^5"
-   },
-   "workspaces": [
-      "packages/*"
-   ],
-   "dependencies": {
-      "dotenv": "^17.4.2"
-   }
+  "name": "new-folder",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run index.ts",
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "concurrently": "^10.0.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.1.1",
+    "prettier": "^3.9.6"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "dotenv": "^17.4.2"
+  }
 }
