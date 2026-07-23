@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { conversationRepository } from '../repository/conversation.repository';
+import { conversationRepository } from '../repositories/conversation.repository';
 
 type ChatService = {
    id: string;
