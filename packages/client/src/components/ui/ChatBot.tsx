@@ -20,6 +20,7 @@ type Message = {
 
 const ChatBot = () => {
    const [messages, setMessages] = useState<Message[]>([]);
+   const [isBotTyping, setIsBotTyping] = useState(false);
    const { register, handleSubmit, reset, formState } = useForm<FormData>({});
    const conversationId = useRef(crypto.randomUUID());
 
@@ -27,6 +28,7 @@ const ChatBot = () => {
       setMessages((prevMessages) => [
          { ...prevMessages, content: prompt, role: 'user' },
       ]);
+      setIsBotTyping(true);
       reset();
       console.log(prompt, conversationId.current);
       try {
@@ -38,6 +40,8 @@ const ChatBot = () => {
             ...prevMessages,
             { content: data.message, role: 'bot' },
          ]);
+         setIsBotTyping(false);
+
       } catch (error) {
          console.error(error);
       }
@@ -61,9 +65,15 @@ const ChatBot = () => {
                     'bg-gray-100 text-black self-start'}`}
                >
                 <ReactMarkdown>{message.content}</ReactMarkdown>
-             
                </div>
             ))}
+              {isBotTyping && (
+                     <div className="flex self-start gap-1 px-3 py-3 bg-gray-200 rounded-xl">
+                       <div className="w-2 h-2 rounded-full bg-gray-800 animate-pulse"/>
+                       <div className="w-2 h-2 rounded-full bg-gray-800 animate-pulse [animation-delay:0.2s]"/>
+                       <div className="w-2 h-2 rounded-full bg-gray-800 animate-pulse [animation-delay:0.4s]"/>
+                     </div>
+                  )}
          </div>
          <form
             // eslint-disable-next-line react-hooks/refs
