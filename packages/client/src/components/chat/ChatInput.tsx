@@ -11,14 +11,16 @@ type Props = {
 };
 
 const ChatInput = ({ onSubmit }: Props) => {
-   const { register, handleSubmit, reset, formState } = useForm<ChatFormData>({});
+   const { register, handleSubmit, reset, formState } = useForm<ChatFormData>(
+      {}
+   );
 
-    const submit = handleSubmit(data => {
-        reset({ prompt: '' });
-        onSubmit(data);
-    });
+   const submit = handleSubmit((data) => {
+      reset({ prompt: '' });
+      onSubmit(data);
+   });
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+   const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
       if (e.key === 'Enter' && !e.shiftKey) {
          e.preventDefault();
          submit();
@@ -29,7 +31,12 @@ const ChatInput = ({ onSubmit }: Props) => {
       <form
          onSubmit={submit}
          onKeyDown={handleKeyDown}
-         className="flex flex-col gap-2 items-end border-2 border-gray-300 p-4 rounded-3xl"
+         className="flex flex-col
+          gap-2 items-end border-2
+           border-gray-300 p-4 rounded-3xl
+            bg-white/10
+  backdrop-blur-md
+            "
       >
          <textarea
             {...register('prompt', {

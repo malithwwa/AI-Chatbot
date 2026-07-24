@@ -38,8 +38,8 @@ const ChatMessages = ({ messages }: Props) => {
                onCopy={onCopyMessage}
                className={`px-2 py-1 max-w-md rounded-xl ${
                   message.role === 'user'
-                     ? 'bg-blue-600 text-white self-end'
-                     : 'bg-gray-100 text-black self-start'
+                     ? 'bg-blue-600/85 backdrop-blur-md text-white self-end'
+                     : 'bg-gray-100/85 backdrop-blur-md text-black self-start'
                }`}
             >
              <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
