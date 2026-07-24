@@ -1,9 +1,10 @@
-import { Button } from './button';
+import { Button } from '../ui/button';
 import { FaArrowUp } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import TypingIndicator from './TypingIndicator';
 
 type FormData = {
    prompt: string;
@@ -20,28 +21,33 @@ type Message = {
 
 const ChatBot = () => {
    const [messages, setMessages] = useState<Message[]>([]);
-   const formRef = useRef<HTMLFormElement | null>(null);
+   const lastMessageRef = useRef<HTMLDivElement | null>(null);
    const [isBotTyping, setIsBotTyping] = useState(false);
+   const [error, setError] = useState<string | null>(null);
    const { register, handleSubmit, reset, formState } = useForm<FormData>({});
    const conversationId = useRef(crypto.randomUUID());
 
    useEffect(() => {
-      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      lastMessageRef.current?.scrollIntoView({
+         behavior: 'smooth',
+         block: 'end',
+      });
    }, [messages]);
 
    const onSubmit = async ({ prompt }: FormData) => {
-      setMessages((prevMessages) => [
-         ...prevMessages,
-         { content: prompt, role: 'user' },
-      ]);
-      setIsBotTyping(true);
-      reset();
-      console.log(prompt, conversationId.current);
       try {
-         const { data } = await axios.post<ChatResponse>(
-            'http://localhost:3000/api/chat',
-            { prompt, conversationId: conversationId.current }
-         );
+         setMessages((prevMessages) => [
+            ...prevMessages,
+            { content: prompt, role: 'user' },
+         ]);
+         setIsBotTyping(true);
+         setError(null);
+         reset({ prompt: '' });
+
+         const { data } = await axios.post<ChatResponse>('/api/chat', {
+            prompt,
+            conversationId: conversationId.current,
+         });
          setMessages((prevMessages) => [
             ...prevMessages,
             { content: data.message, role: 'bot' },
@@ -49,6 +55,8 @@ const ChatBot = () => {
          setIsBotTyping(false);
       } catch (error) {
          console.error(error);
+         setError('Something went wrong, Try again!');
+         setIsBotTyping(false);
       }
    };
 
@@ -59,20 +67,21 @@ const ChatBot = () => {
       }
    };
 
-  const onCopyMessage = (e: React.ClipboardEvent): void => {
-    const selection = window.getSelection()?.toString().trim();
-    if (selection) {
-      e.preventDefault();
-      e.clipboardData.setData('text/plain', selection);
-    }
-  };
+   const onCopyMessage = (e: React.ClipboardEvent): void => {
+      const selection = window.getSelection()?.toString().trim();
+      if (selection) {
+         e.preventDefault();
+         e.clipboardData.setData('text/plain', selection);
+      }
+   };
 
    return (
-      <div className="mb-3">
-         <div className="flex flex-col gap-3 mb-10">
+      <div className="flex flex-col h-full">
+         <div className="flex flex-col flex-1 gap-3 mb-10 overflow-y-auto">
             {messages.map((message, index) => (
-               <p
+               <div
                   key={index}
+                  ref={index === messages.length - 1 ? lastMessageRef : null}
                   onCopy={onCopyMessage}
                   className={`px-2 py-1 rounded-xl ${
                      message.role === 'user'
@@ -81,21 +90,17 @@ const ChatBot = () => {
                   }`}
                >
                   <ReactMarkdown>{message.content}</ReactMarkdown>
-               </p>
+               </div>
             ))}
             {isBotTyping && (
-               <div className="flex self-start gap-1 px-3 py-3 bg-gray-200 rounded-xl">
-                  <div className="w-2 h-2 rounded-full bg-gray-800 animate-pulse" />
-                  <div className="w-2 h-2 rounded-full bg-gray-800 animate-pulse [animation-delay:0.2s]" />
-                  <div className="w-2 h-2 rounded-full bg-gray-800 animate-pulse [animation-delay:0.4s]" />
-               </div>
+               <TypingIndicator />
             )}
+            {error && <div className="text-red-500 text-sm">{error}</div>}
          </div>
          <form
             // eslint-disable-next-line react-hooks/refs
             onSubmit={handleSubmit(onSubmit)}
             onKeyDown={onKeyDown}
-            ref={formRef}
             className="flex flex-col gap-2 items-end border-2 border-gray-300 p-4 rounded-3xl"
          >
             <textarea
@@ -103,6 +108,7 @@ const ChatBot = () => {
                   required: true,
                   validate: (value) => value.trim().length > 0,
                })}
+               autoFocus
                placeholder="Ask anything"
                maxLength={1000}
                className="w-full border-0 focus:outline-0 resize-none"
