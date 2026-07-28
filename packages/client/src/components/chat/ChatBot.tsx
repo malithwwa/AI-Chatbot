@@ -34,7 +34,7 @@ const ChatBot = () => {
          setError(null);
          popAudio.play();
 
-         const { data } = await axios.post<ChatResponse>(`${BASE_URL}/api/chat`, {
+         const { data } = await axios.post<ChatResponse>(`https://ai-chatbot-server-chi.vercel.app/api/chat`, {
             prompt,
             conversationId: conversationId.current,
          });
