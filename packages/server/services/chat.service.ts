@@ -3,6 +3,10 @@ import path from 'node:path';
 import OpenAI from 'openai';
 import { conversationRepository } from '../repositories/conversation.repository.js';
 // import template from '../prompts/chatbot.txt'
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 type ChatResponse = {
    id: string;
