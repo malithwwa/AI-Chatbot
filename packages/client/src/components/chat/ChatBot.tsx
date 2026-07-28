@@ -6,6 +6,7 @@ import ChatMessages from './ChatMessages';
 import ChatInput, { type ChatFormData } from './ChatInput';
 import popSound from '@/assets/sounds/pop.mp3';
 import notificationSound from '@/assets/sounds/notification.mp3';
+import { BASE_URL } from '@/config/api'
 
 const popAudio = new Audio(popSound);
 popAudio.volume = 0.2;
@@ -33,7 +34,7 @@ const ChatBot = () => {
          setError(null);
          popAudio.play();
 
-         const { data } = await axios.post<ChatResponse>('/api/chat', {
+         const { data } = await axios.post<ChatResponse>(`https://ai-chatbot-server-chi.vercel.app/api/chat`, {
             prompt,
             conversationId: conversationId.current,
          });
