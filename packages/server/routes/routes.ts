@@ -1,5 +1,5 @@
 import express, { type Request, type Response } from 'express';
-import { chatController } from '../controllers/chat.controller';
+import { chatController } from '../controllers/chat.controller.js';
 
 const router = express.Router();
 router.get('/', (req: Request, res: Response) => {

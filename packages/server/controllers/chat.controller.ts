@@ -1,5 +1,5 @@
 import z from 'zod';
-import { chatService } from '../services/chat.service';
+import { chatService } from '../services/chat.service.js';
 import type { Request, Response } from 'express';
 
 const chatSchema = z.object({

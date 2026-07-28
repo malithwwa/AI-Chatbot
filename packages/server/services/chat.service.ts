@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import OpenAI from 'openai';
-import { conversationRepository } from '../repositories/conversation.repository';
+import { conversationRepository } from '../repositories/conversation.repository.js';
 // import template from '../prompts/chatbot.txt'
 
 type ChatResponse = {
