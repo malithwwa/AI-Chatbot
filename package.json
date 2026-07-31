@@ -22,6 +22,8 @@
     "packages/*"
   ],
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@prisma/adapter-mariadb": "^7.9.1",
     "dotenv": "^17.4.2"
   }
 }
