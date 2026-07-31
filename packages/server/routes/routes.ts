@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from 'express';
 import { chatController } from '../controllers/chat.controller.js';
-import { prisma } from '../index.js';
+import { reviewController } from '../controllers/review.controller.js';
 
 
 const router = express.Router();
@@ -14,22 +14,6 @@ router.get('/hello', (req: Request, res: Response) => {
 
 router.post('/chat', chatController.sendMessage);
 
-router.get('/products/:id/reviews', async(req: Request, res: Response) => {
-
-   const productId = Number(req.params.id);
-
-   if (isNaN(productId)){
-      res.status(400).json({error:'Invalid Product Id'})
-      return;
-   }
-
-   // dont need to write raw sql, instead object of our application
-   const reviews = await prisma.review.findMany({
-      where: { productId },
-      orderBy: { createdAt: 'desc'}
-   });
-
-   res.send({ data: reviews });
-})
+router.get('/products/:id/reviews', reviewController.getReviews)
 
 export default router;

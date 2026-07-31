@@ -1,0 +1,16 @@
+import type { Request, Response } from 'express';
+import { reviewService } from '../services/review.service';
+
+export const reviewController = {
+   getReviews: async (req: Request, res: Response) => {
+      const productId = Number(req.params.id);
+
+      if (isNaN(productId)) {
+         res.status(400).json({ error: 'Invalid Product Id' });
+         return;
+      }
+
+      const reviews = await reviewService.getReviews(productId);
+      res.send({ data: reviews });
+   },
+};
