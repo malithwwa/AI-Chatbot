@@ -15,5 +15,7 @@ router.get('/hello', (req: Request, res: Response) => {
 router.post('/chat', chatController.sendMessage);
 
 router.get('/products/:id/reviews', reviewController.getReviews)
+router.post('/products/:id/reviews/summarize', reviewController.summarizeReviews)
+
 
 export default router;
