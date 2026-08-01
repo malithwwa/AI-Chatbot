@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/set-state-in-effect */
+import { BASE_URL } from '@/config/api';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import StarRatings from './StarRatings';
 
 type Props = {
    productId: number;
@@ -46,7 +47,7 @@ const ReviewList = ({ productId }: Props) => {
          {reviewData?.reviews.map((review) => (
             <div key={review.id}>
                <div className="font-semibold">{review.author}</div>
-               <div>Rating: {review.rating}/5</div>
+               <div><StarRatings value={review.rating} /></div>
                <p className='py-2'>{review.content}</p>
             </div>
          ))}
