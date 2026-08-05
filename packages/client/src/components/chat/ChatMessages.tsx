@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from "remark-gfm";
+import BotBubble from './BotBubble';
+import TypingBubble from './TypingBubble';
+import UserBubble from './UserBubble';
 
 export type Message = {
    content: string;
@@ -9,17 +10,16 @@ export type Message = {
 
 type Props = {
    messages: Message[];
+   isBotTyping: boolean;
+   error: string | null;
 };
 
-const ChatMessages = ({ messages }: Props) => {
-   const lastMessageRef = useRef<HTMLDivElement | null>(null);
+const ChatMessages = ({ messages, isBotTyping, error }: Props) => {
+const scrollRef = useRef<HTMLDivElement | null>(null);
 
    useEffect(() => {
-      lastMessageRef.current?.scrollIntoView({
-         behavior: 'smooth',
-         block: 'end',
-      });
-   }, [messages]);
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, isBotTyping]);
 
    const onCopyMessage = (e: React.ClipboardEvent): void => {
       const selection = window.getSelection()?.toString().trim();
@@ -30,21 +30,25 @@ const ChatMessages = ({ messages }: Props) => {
    };
 
    return (
-      <div className='flex flex-col gap-4'>
+      <div
+         className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-5 sm:px-5"
+         style={{ scrollbarWidth: 'thin' }}
+         ref={scrollRef}
+      >
          {messages.map((message, index) => (
             <div
                key={index}
-               ref={index === messages.length - 1 ? lastMessageRef : null}
                onCopy={onCopyMessage}
-               className={`px-2 py-1 max-w-md rounded-xl ${
-                  message.role === 'user'
-                     ? 'bg-blue-600/85 backdrop-blur-md text-white self-end'
-                     : 'bg-gray-100/85 backdrop-blur-md text-black self-start'
-               }`}
             >
-             <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+               {message.role === 'user' ? (
+                  <UserBubble message={message.content} />
+               ) : (
+                  <BotBubble message={message.content} />
+               )}
             </div>
          ))}
+         {isBotTyping && <TypingBubble />}
+         {error && <div className="text-red-500 text-sm">{error}</div>}
       </div>
    );
 };

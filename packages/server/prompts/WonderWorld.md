@@ -3,6 +3,9 @@
 
 ---
 
+## 🎟️ Park Directions
+- Address: 605 High Level Rd, Nugegoda, Sri Lanka
+
 ## 🎟️ Ticket & Pricing Information
 
 | Ticket Type                | Price (USD) | Notes                                 |
