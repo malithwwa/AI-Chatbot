@@ -18,14 +18,19 @@ export const chatController = {
       }
       try {
          const { prompt } = req.body;
+         console.log(prompt)
          const response = await chatService.sendMessage(prompt);
 
          res.json({
             message: response.message,
          });
       } catch (error) {
+         const message = error instanceof Error
+            ? error.message
+            : 'An error occurred while processing your request.';
+         console.log(error)
          res.status(500).json({
-            error: 'Error fetching chat completion:',
+            error: message,
             details: error,
          });
       }
