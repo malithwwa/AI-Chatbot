@@ -31,7 +31,6 @@ const instructions = chatbotPrompt.replace('{{parkInfo}}', parkInfo);
 export const chatService = {
    sendMessage: async (
       prompt: string,
-      conversationId: string
    ): Promise<ChatResponse> => {
       const response = await client.responses.create({
          model: 'openai/gpt-oss-20b:free',
@@ -41,7 +40,7 @@ export const chatService = {
          max_output_tokens: 200,
          // previous_response_id: conversationRepository.getLastResponseId(conversationId),
       });
-      conversationRepository.setLastResponseId(conversationId, response.id);
+      // conversationRepository.setLastResponseId(conversationId, response.id);
       return {
          id: response.id,
          message: response.output_text,

@@ -8,7 +8,6 @@ const chatSchema = z.object({
       .trim()
       .min(1, { message: 'Prompt cannot be empty' })
       .max(1000, { message: 'Prompt cannot exceed 1000 characters' }),
-   conversationId: z.string(),
 });
 
 export const chatController = {
@@ -18,8 +17,8 @@ export const chatController = {
          return res.status(400).json(parsedResult.error.format());
       }
       try {
-         const { prompt, conversationId } = req.body;
-         const response = await chatService.sendMessage(prompt, conversationId);
+         const { prompt } = req.body;
+         const response = await chatService.sendMessage(prompt);
 
          res.json({
             message: response.message,
