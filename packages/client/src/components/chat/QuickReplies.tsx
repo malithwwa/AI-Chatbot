@@ -1,11 +1,11 @@
-import { FaClock, FaHotel, FaMapPin, FaUtensils } from 'react-icons/fa';
+import { LuClock4,LuHotel, LuMapPin, LuUtensilsCrossed } from 'react-icons/lu';
 import type { ChatFormData } from './ChatInput';
 
 const quickReplies = [
-  { label: "Hotel", icon: FaHotel, prompt: "Tell me about hotels near Wonder World" },
-  { label: "Restaurant", icon: FaUtensils, prompt: "What restaurants are inside the park?" },
-  { label: "Open Hours", icon: FaClock, prompt: "What are today's opening hours?" },
-  { label: "Directions", icon: FaMapPin, prompt: "How do I get to Wonder World?" },
+  { label: "Hotel", icon: LuHotel, prompt: "Tell me about hotels near Wonder World" },
+  { label: "Restaurant", icon: LuUtensilsCrossed, prompt: "What restaurants are inside the park?" },
+  { label: "Open Hours", icon: LuClock4, prompt: "What are today's opening hours?" },
+  { label: "Directions", icon: LuMapPin, prompt: "How do I get to Wonder World?" },
 ];
 
 type Props = {

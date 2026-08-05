@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
-import { FaArrowUp } from 'react-icons/fa';
+import { LuSend } from 'react-icons/lu';
 
 export type ChatFormData = {
    prompt: string;
@@ -50,7 +50,7 @@ const ChatInput = ({ onSubmit }: Props) => {
             type="submit"
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-sky-600 text-white shadow-sm transition disabled:opacity-40 disabled:cursor-not-allowed enabled:hover:brightness-110 enabled:active:scale-95"
          >
-            <FaArrowUp size={15} strokeWidth={2.25}/>
+            <LuSend size={15} strokeWidth={2.25}/>
          </Button>
           </form>
         
